@@ -1,9 +1,9 @@
 import { useEffect, useState } from "preact/hooks";
-import "./app.css";
 import axios from "axios";
+import "./app.css";
 
 export function App() {
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(null);
 
   const getPrice = () => {
     axios
@@ -17,15 +17,38 @@ export function App() {
   };
 
   useEffect(() => {
-    getPrice();
+    const interval = setInterval(() => {
+      getPrice();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <>
-      <div className="App">
-        <h1>Bitcoin Price</h1>
-        <h3>${price}</h3>
+    <div>
+      <header>
+        <h1>Pleb Wallet</h1>
+      </header>
+      {/* <Buttons /> */}
+      <div className="row">
+        <div className="balance-card">
+          <h2>Balance</h2>
+          {/* <p>{ balance } sats</p> */}
+        </div>
+        <div className="balance-card">
+          <h2>Price</h2>
+          <p>${price}</p>
+        </div>
       </div>
-    </>
+      <div className="row">
+        <div className="row-item">
+          {/* <Transactions transactions={transactions} /> */}
+        </div>
+        <div className="row-item">{/* <Chart chartData={chartData} /> */}</div>
+      </div>
+      <footer>
+        <p>Made by plebs, for plebs.</p>
+      </footer>
+    </div>
   );
 }
